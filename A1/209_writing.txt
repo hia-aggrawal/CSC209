@@ -1,0 +1,71 @@
+ADDECHO(1)                                    			Add Echo Manual                                       ADDECHO(1)                                                                                                                      
+
+
+NAME
+	addecho - Add echo to a sound. Takes in existing wav files and in return creates a new wav file that has echo in the sound.
+
+SYNOPSIS
+		
+	addecho [-d delay] [-v volume_scale] sourcewav destwav
+
+DESCRIPTION
+
+	The addecho function adds echo to the original sound file(WAV file) by creating a new file with echo added in the file.
+		
+	The following option is available:
+
+	-d delay
+		It is the number of samples after which the audio echos in the output file. If the number of sample is not specified then, the default value: 8000 will be used to create an output. -d delay makes the delay start after xxxx seconds in the output audio. The default rate of sampling is 22050, hence, the sample
+		is divided by sampling rate to calculate the delay. 
+		
+	-v volume_scale
+		It is the volume of the wav sound file in the output file. In case it is not mentioned, a default value of 4 will be taken into consideration.                                                                                                                                                                                              
+
+	-sourcewav
+		The path to original source mono sound WAV file on which echo has to be added.
+
+	-destwav
+	 	The path where the echoed sound WAV file will be outputted.
+
+
+RETURN VALUES
+		
+	The addecho()function returns values that include outputting a mono WAV file.
+
+
+EXAMPLES
+	addecho -d 12000 -v 4 door.wav door_12000_4.wav
+		Add echo to the sound file with a delay of 12000 samples and scale volume by 4, starting with the original door.wav.
+	
+	addecho -d 3000 -v 2 door.wav door_3000_2.wav
+		Add echo to the sound file with a delay of 3000 samples and scale it by 2, starting with the original door.wav.
+
+	addecho -d 60000 -v 0.5 door.wav door_60000_0.5.wav
+		Add echo to the sound file with a delay of 60000 samples and scale it by 0.5, starting with the original door.wav.
+	
+	addecho -d 2000 -v 1 door.wav door_2000_1.wav
+		Add echo to the sound file with a delay of 2000 samples and scale it by 1, starting with the original door.wav.
+	
+WARNINGS
+
+	Invalid Delay Key
+		Delay value must be greater than 0.
+		
+	Invalid Volume Scale
+		Volume scale value must be greater than 0.	
+
+ERRORS
+	
+	[SyntaxError] 
+		Missing arguments. Please refer to the usage below:\nUsage: [-d delay] [-v volume_scale] <sourcewav> <destwav>.
+
+
+	[FileNotFound]
+		Could not open source/output file due to invalid file path or source/output file does not exist.
+
+	[SemanticErrror]
+		Could not write a sample. 
+	
+	[ERRNO]
+		Could not close the input/output file.
+		
