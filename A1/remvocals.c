@@ -4,9 +4,6 @@
 #define HEADER_SIZE 44
 
 /*Code written by Kanupreet Arora.*/
-/*Kanupreet Arora could not push to the Markus repository
-due to techincal difficulties, so Hia Aggrawal pushed her 3 files 
-(video, writing, and remvocals.c) to Markus*/
 int main(int argc, char *argv[]){
     // this is the name of the input and output file as mentioned in the handout
     char *sourcewave_name, *destwav_name; 

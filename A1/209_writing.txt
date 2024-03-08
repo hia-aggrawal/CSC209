@@ -1,71 +1,54 @@
-ADDECHO(1)                                    			Add Echo Manual                                       ADDECHO(1)                                                                                                                      
-
-
+ADDECHO(1)				addecho Manual						ADDECHO(1)  
+                                                                                                                    
 NAME
-	addecho - Add echo to a sound. Takes in existing wav files and in return creates a new wav file that has echo in the sound.
+        addecho - adds an echoed version of input mono WAV sound file to output mono WAV sound file
+
 
 SYNOPSIS
-		
-	addecho [-d delay] [-v volume_scale] sourcewav destwav
+        addecho [-d delay] [-v volume_scale] sourcewav destwav
+
 
 DESCRIPTION
+        The addecho function takes two mono WAV sound files and adds an echoed version of the sound from one to the other.
+        The echoed version is the audio in the input mono WAV sound file with an echo effect; a recurring but quieter sound.
+                
+        The following options are available:
 
-	The addecho function adds echo to the original sound file(WAV file) by creating a new file with echo added in the file.
-		
-	The following option is available:
 
-	-d delay
-		It is the number of samples after which the audio echos in the output file. If the number of sample is not specified then, the default value: 8000 will be used to create an output. -d delay makes the delay start after xxxx seconds in the output audio. The default rate of sampling is 22050, hence, the sample
-		is divided by sampling rate to calculate the delay. 
-		
-	-v volume_scale
-		It is the volume of the wav sound file in the output file. In case it is not mentioned, a default value of 4 will be taken into consideration.                                                                                                                                                                                              
+        -d delay
+                This specifies the number of samples the echo must delay in the output file. The program uses a default value of 8000 if this option is not provided. Note that the sampling rate for the files must be 22050 to avoid unexpected behaviour. For delay = 8000, the echo will start at 8000 / 22050 = 0.3628 seconds after the sound starts. This value must be greater than 0.
 
-	-sourcewav
-		The path to original source mono sound WAV file on which echo has to be added.
 
-	-destwav
-	 	The path where the echoed sound WAV file will be outputted.
+        -v volume_scale
+                This indicates the factor to scale the volume at each echo. If not provided, the program uses a default value of 4. For volume_scale = 4 means to divide the volume of the original sound by 4 when producing the echo. This value must be greater than 0.
+
+
+The following arguments are available:                                                                                                                                                                            
+ 
+        -sourcewav
+                The path to the source mono sound WAV file from which the audio is extracted and echoed. This is a required argument; the program will crash if no value is sent for sourcewav.
+
+
+        -destwav
+                 The path to the destination mono sound WAV file where the echoed sound is copied. This is also a required argument; the program will crash if no value is sent for destwav.
 
 
 RETURN VALUES
-		
-	The addecho()function returns values that include outputting a mono WAV file.
+        The function returns an indicator integer that takes one of two values, 0 or 1. The 0 indicates that the function was executed with no errors. The 1 indicates that the function could not execute fully and an error has been thrown.
 
 
 EXAMPLES
-	addecho -d 12000 -v 4 door.wav door_12000_4.wav
-		Add echo to the sound file with a delay of 12000 samples and scale volume by 4, starting with the original door.wav.
-	
-	addecho -d 3000 -v 2 door.wav door_3000_2.wav
-		Add echo to the sound file with a delay of 3000 samples and scale it by 2, starting with the original door.wav.
-
-	addecho -d 60000 -v 0.5 door.wav door_60000_0.5.wav
-		Add echo to the sound file with a delay of 60000 samples and scale it by 0.5, starting with the original door.wav.
-	
-	addecho -d 2000 -v 1 door.wav door_2000_1.wav
-		Add echo to the sound file with a delay of 2000 samples and scale it by 1, starting with the original door.wav.
-	
+        addecho -d 12000 -v 4 door.wav door_12000_4.wav
+                Save an echoed version of door.wav with a delay of 12000 samples and volume scaled down by 4 in door_12000_4.wav
+        
+        addecho -v 2 door.wav door_8000_2.wav
+                Save an echoed version of door.wav with a default delay of 8000 samples and volume scaled down by 2 in door_8000_2.wav
+        
 WARNINGS
-
-	Invalid Delay Key
-		Delay value must be greater than 0.
-		
-	Invalid Volume Scale
-		Volume scale value must be greater than 0.	
-
-ERRORS
-	
-	[SyntaxError] 
-		Missing arguments. Please refer to the usage below:\nUsage: [-d delay] [-v volume_scale] <sourcewav> <destwav>.
+	Sending an invalid value for delay and volume scale, i.e., either or both less than 0, will result in a program crash. Additionally, providing an invalid argument, such as sending "-b bass," will lead to a program crash. Failure to specify paths for input and output files will also cause a crash, and if either path does not lead to a readable/writable, or existing file, the program will crash. 
+More specific to implementation: If the program cannot write the header of the input mono WAV sound file to the output file, it will crash. Furthermore, any failure to read or write a sample will result in a program crash. 
+	Lastly, any difficulties in closing files will lead to a program crash.
 
 
-	[FileNotFound]
-		Could not open source/output file due to invalid file path or source/output file does not exist.
-
-	[SemanticErrror]
-		Could not write a sample. 
-	
-	[ERRNO]
-		Could not close the input/output file.
-		
+BUGS
+        The program will accept the path to a non-empty mono WAV sound file for the destwav argument. This can lead to unexpected behaviour, because the program never checks if the file is empty or not.

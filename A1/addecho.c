@@ -10,9 +10,6 @@ short header[HEADER_SIZE];
 /* addecho applies an echo effect to a WAV 
 audio file, with adjustable delay and volume scale. 
 Code written by: Hia Aggrawal*/ 
-/*Kanupreet Arora could not push to the Markus repository
-due to techincal difficulties, so Hia Aggrawal pushed her 3 files 
-(video, writing, and remvocals.c) to Markus*/
 int main(int argc, char *argv[]) {
     int delay = DEFAULT_DELAY, volume_scale = DEFAULT_VSCALE;
     char *source_name, *dest_name;
